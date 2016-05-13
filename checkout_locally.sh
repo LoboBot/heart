@@ -11,7 +11,6 @@ echo "${greenb} ${blackf}4. Validation PR ${2}"
 echo "${whitef}———————————————————${reset}"
 git --work-tree=${1} --git-dir=${1}.git checkout master
 echo "${greenb} ${blackf}5. Delete Temporay PR ${2}"
-cd ${1}
-swiftlint lint --reporter json > ${1}swiftlint-report.json
-linterbot stefanka-lingerie/mirada 2 < ${1}swiftlint-report.json
-#git --work-tree=${1} --git-dir=${1}.git branch -D pull_"${2}"
+cd ${1} && swiftlint lint --reporter json > ${1}swiftlint-report.json
+bundle exec linterbot stefanka-lingerie/mirada ${2} < ${1}swiftlint-report.json
+git --work-tree=${1} --git-dir=${1}.git branch -D pull_"${2}"
