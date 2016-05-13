@@ -9,9 +9,12 @@
 - deploy our mobile app
 - next soon
 
+# News
+
+- [x] Remove the hard code value
+
 # To Do
 
-- [ ] Remove the hard code value
 - [ ] remove dependencie to linterbot or use a fork
 - [ ] create an email address
 - [ ] create a twitter account
