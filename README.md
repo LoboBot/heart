@@ -8,3 +8,11 @@
 - review our code
 - deploy our mobile app
 - next soon
+
+# To Do
+
+- [ ] Remove the hard code value
+- [ ] remove dependencie to linterbot or use a fork
+- [ ] create an email address
+- [ ] create a twitter account
+- [ ] create a phone (twillio)
