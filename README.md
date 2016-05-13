@@ -1,2 +1,1 @@
-# lobobot
-our lobobot
+# passwords
