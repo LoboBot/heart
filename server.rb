@@ -35,9 +35,8 @@ post '/event_handler' do
 
   case request.env['HTTP_X_GITHUB_EVENT']
   when 'pull_request'
-    repo(repo['name'])
-    @number = pull_request['number']
-
+    repo(@payload["repository"]['name'])
+    @number = @payload["pull_request"]['number']
     if @payload['action'] == 'opened'
       open_pull_request
     else
@@ -48,16 +47,26 @@ post '/event_handler' do
 end
 
 helpers do
+  def json_status(code, reason)
+     status code
+     {
+       :status => code,
+       :reason => reason
+     }.to_json
+  end
+
   def open_pull_request
-    case @repo.type
+    case @repo['type']
     when 'ios'
       system("./review_#{type}_pr.sh #{@local_path} #{number}")
     end
   end
 
   def closed_pull_request
-    case @repo.type
-    when ios, android
+    #json_status(200,"success")
+    status 200
+    case @repo['type']
+    when 'ios', 'android'
       system("./deploy_mobile.sh #{@local_path}")
     end
   end
