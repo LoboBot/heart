@@ -1,9 +1,9 @@
 =======
-# Who is LoboBot ?
+# Who is Lobo Bot ?
 
-![enter image description here](https://avatars0.githubusercontent.com/u/19193581?v=3&s=400)
+![Lobo BoT](https://avatars0.githubusercontent.com/u/19193581?v=3&s=400)
 
-**She** is in charge to  :
+**She** is our nice robot who :
 
 - review our code
 - deploy our mobile app

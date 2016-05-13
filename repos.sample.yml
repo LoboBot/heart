@@ -1,0 +1,5 @@
+---
+mirada:
+  local_path: LOCAL_PATH_REPO
+  type: ios/android/ruby/php/node/js
+  name: NAME_REPO

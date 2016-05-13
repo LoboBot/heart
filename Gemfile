@@ -6,3 +6,4 @@ gem "octokit"
 gem "dotenv"
 gem "linterbot"
 gem "fastlane"
+gem 'rubocop', require: false
