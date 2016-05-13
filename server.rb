@@ -63,11 +63,9 @@ helpers do
   end
 
   def closed_pull_request
-    #json_status(200,"success")
-    status 200
     case @repo['type']
     when 'ios', 'android'
-      system("./deploy_mobile.sh #{@local_path}")
+      Thread.start { system("./deploy_mobile.sh #{@local_path}") }
     end
   end
 
