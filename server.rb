@@ -35,7 +35,7 @@ post '/event_handler' do
 
   case request.env['HTTP_X_GITHUB_EVENT']
   when 'pull_request'
-    repo(@payload["repository"]['name'])
+    repo(@payload['repository']['name'])
     @number = @payload["pull_request"]['number']
     if @payload['action'] == 'opened'
       open_pull_request
@@ -47,25 +47,19 @@ post '/event_handler' do
 end
 
 helpers do
-  def json_status(code, reason)
-     status code
-     {
-       :status => code,
-       :reason => reason
-     }.to_json
-  end
-
   def open_pull_request
     case @repo['type']
-    when 'ios'
-      system("./review_#{type}_pr.sh #{@local_path} #{number}")
+      when 'ios'
+        system("./review_#{@type}_pr.sh #{@local_path} #{@number} #{@slug}")
+      when 'ruby', 'ios'
+      system("./review_#{@type}_pr.sh #{@local_path} #{@number} #{ACCESS_TOKEN}")
     end
   end
 
   def closed_pull_request
     case @repo['type']
     when 'ios', 'android'
-      Thread.start { system("./deploy_mobile.sh #{@local_path}") }
+      #Thread.start { system("./deploy_mobile.sh #{@local_path}") }
     end
   end
 
@@ -73,5 +67,6 @@ helpers do
     @repo = @repos.fetch(name)
     @local_path = @repo['local_path']
     @type = @repo['type']
+    @slug = @repo['slug']
   end
 end
