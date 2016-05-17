@@ -3,7 +3,7 @@ require 'octokit'
 p "Comment pushed on giThub"
 
 #TO DO
-message = ARGV[3])
+message = ARGV[3]
 token = ARGV[0]
 number_pl = ARGV[2]
 slug = ARGV[1]

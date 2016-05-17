@@ -13,7 +13,7 @@ require 'yaml'
 
 ACCESS_TOKEN = ENV['GITHUB_ACCESS_TOKEN']
 SECRET_TOKEN = ENV['SECRET_TOKEN']
-ROOT_DIRECTORY = ENV['ROOT_DICT']#TO 
+ROOT_DIRECTORY = ENV['ROOT_DICT']#TO
 
 before do
   @client ||= Octokit::Client.new(access_token: ACCESS_TOKEN)
@@ -33,12 +33,20 @@ post '/event_handler' do
   payload_body = request.body.read
   verify_signature(payload_body)
   @payload = JSON.parse(payload_body)
+
+  p "#{request.env['HTTP_X_GITHUB_EVENT']} - #{@payload['repository']['name']}"
+
   case request.env['HTTP_X_GITHUB_EVENT']
   when 'pull_request'
+    p "STATE #{@payload["pull_request"]['state']}"
     repo(@payload['repository']['name'])
     @slug = @payload['repository']['full_name']
     @number = @payload["pull_request"]['number']
-    if @payload['action'] == 'opened'
+    state = @payload["pull_request"]['state']
+
+
+
+    if state == 'open'
       open_pull_request
     else
       closed_pull_request
@@ -47,22 +55,15 @@ post '/event_handler' do
   end
 end
 
-
-
 helpers do
   def open_pull_request
-    case @repo['type']
-      when 'ios'
-        system("./review_#{@type}_pr.sh #{@local_path} #{@number} #{@slug}")
-      when 'ruby', 'android'
-      Thread.start { system("./review_#{@type}_pr.sh #{@local_path} #{@number} #{ACCESS_TOKEN} #{@slug} ${ROOT_DIRECTORY}")}
-    end
+    Thread.start { system("./review_#{@type}1_pr.sh #{@local_path} #{@number} #{ACCESS_TOKEN} #{@slug} #{ROOT_DIRECTORY}")}
   end
 
   def closed_pull_request
     case @repo['type']
     when 'ios', 'android'
-      #Thread.start { system("./deploy_mobile.sh #{@local_path}") }
+      Thread.start { system("./deploy_mobile.sh #{@local_path}") }
     end
   end
 
